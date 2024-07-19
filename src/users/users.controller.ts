@@ -8,6 +8,9 @@ import {
   Delete,
   Body,
   Param,
+  HttpCode,
+  HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -18,6 +21,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
@@ -32,6 +36,7 @@ export class UsersController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Log in a user' })
   @ApiResponse({
     status: 200,
@@ -39,9 +44,19 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'Invalid credentials.' })
   async login(@Body() loginUserDto: LoginUserDto) {
-    return this.usersService.validateUser(loginUserDto);
+    try {
+      this.logger.log(`Attempting to log in user: ${loginUserDto.username}`);
+      const user = await this.usersService.validateUser(loginUserDto);
+      this.logger.log(`User logged in successfully: ${loginUserDto.username}`);
+      return user;
+    } catch (error) {
+      this.logger.error(
+        `Login failed for user: ${loginUserDto.username}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
-
   @Put(':id')
   @ApiOperation({ summary: 'Update user information' })
   @ApiResponse({
