@@ -6,9 +6,18 @@ import {
   Delete,
   Param,
   Body,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { LetterService } from './letter.service';
-import { ApiTags, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiParam,
+  ApiBody,
+  ApiConsumes,
+} from '@nestjs/swagger';
 
 @ApiTags('letters')
 @Controller('letters')
@@ -24,19 +33,21 @@ export class LetterController {
         receiverId: { type: 'string' },
         title: { type: 'string' },
         content: { type: 'string' },
-        photos: { type: 'array', items: { type: 'string' } },
+        photos: { type: 'array', items: { type: 'string', format: 'binary' } },
         date: { type: 'string', format: 'date-time' },
       },
     },
   })
+  @ApiConsumes('multipart/form-data')
   @Post()
+  @UseInterceptors(FilesInterceptor('photos'))
   async createLetter(
     @Body('coupleId') coupleId: string,
     @Body('senderId') senderId: string,
     @Body('receiverId') receiverId: string,
     @Body('title') title: string,
     @Body('content') content: string,
-    @Body('photos') photos: string[],
+    @UploadedFiles() photos: Express.Multer.File[],
     @Body('date') date: Date,
   ) {
     return this.letterService.createLetter(
@@ -57,17 +68,18 @@ export class LetterController {
       properties: {
         title: { type: 'string' },
         content: { type: 'string' },
-        photos: { type: 'array', items: { type: 'string' } },
+        photos: { type: 'array', items: { type: 'string', format: 'binary' } },
         date: { type: 'string', format: 'date-time' },
       },
     },
   })
+  @ApiConsumes('multipart/form-data')
   @Put(':id')
   async updateLetter(
     @Param('id') letterId: string,
     @Body('title') title: string,
     @Body('content') content: string,
-    @Body('photos') photos: string[],
+    @UploadedFiles() photos: Express.Multer.File[],
     @Body('date') date: Date,
   ) {
     return this.letterService.updateLetter(
