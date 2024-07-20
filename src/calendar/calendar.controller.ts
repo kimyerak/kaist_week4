@@ -84,6 +84,13 @@ export class CalendarController {
     return this.calendarService.getSchedules(coupleId, date);
   }
 
+  @ApiOperation({ summary: 'Get all schedules for a couple' })
+  @ApiParam({ name: 'coupleId', description: 'Couple ID' })
+  @Get('couples/:coupleId/schedules')
+  async getAllSchedules(@Param('coupleId') coupleId: string) {
+    return this.calendarService.getAllSchedules(coupleId);
+  }
+
   @ApiOperation({ summary: '이건 편지탭에서 쓰임. 편지개수와 기념일반환' })
   @ApiParam({ name: 'coupleId', description: 'Couple ID' })
   @Get('couples/:coupleId/progress')

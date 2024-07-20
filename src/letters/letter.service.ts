@@ -35,11 +35,15 @@ export class LetterService {
     photos: string[],
     date: Date,
   ) {
-    return await this.letterModel.findByIdAndUpdate(
-      letterId,
-      { title, content, photos, date },
-      { new: true },
-    );
+    const updateFields: any = {};
+    if (title !== undefined) updateFields.title = title;
+    if (content !== undefined) updateFields.content = content;
+    if (photos !== undefined) updateFields.photos = photos;
+    if (date !== undefined) updateFields.date = date;
+
+    return await this.letterModel.findByIdAndUpdate(letterId, updateFields, {
+      new: true,
+    });
   }
 
   async deleteLetter(letterId: string) {

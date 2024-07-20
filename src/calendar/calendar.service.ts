@@ -84,8 +84,13 @@ export class CalendarService {
     return await this.scheduleModel.findByIdAndDelete(scheduleId);
   }
 
+  //선택한 날의 스케줄
   async getSchedules(coupleId: string, date: Date) {
     return await this.scheduleModel.find({ coupleId, date });
+  }
+  // 전체 스케줄
+  async getAllSchedules(coupleId: string) {
+    return await this.scheduleModel.find({ coupleId });
   }
 
   //얘는 편지탭에서 쓰임
