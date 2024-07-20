@@ -8,7 +8,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { Couple } from './schemas/couple.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -18,7 +18,7 @@ import * as mongoose from 'mongoose';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Couple.name) private coupleModel: Model<Couple>,
   ) {}
 
@@ -45,10 +45,17 @@ export class UsersService {
   async updateCouple(
     id: string,
     updateCoupleDto: UpdateCoupleDto,
-  ): Promise<Couple> {
+  ): Promise<Couple | null> {
     const user = await this.userModel.findById(id).exec();
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    // partnerUsername 또는 startDate가 null인 경우 처리
+    if (!updateCoupleDto.partnerUsername || !updateCoupleDto.startDate) {
+      user.coupleId = null;
+      await user.save();
+      return null;
     }
 
     const partner = await this.userModel
@@ -58,6 +65,14 @@ export class UsersService {
       throw new NotFoundException('Partner not found');
     }
 
+    // 파트너에게 이미 coupleID가 할당되어 있는지 확인
+    if (partner.coupleId) {
+      throw new ConflictException(
+        '그 사람에겐 이미 coupleID가 할당되어 있습니다',
+      );
+    }
+
+    //날짜 형식 2024-07-20으로 받으면 시간은 자동 0:0:0:0
     const startDate = new Date(updateCoupleDto.startDate);
     startDate.setHours(0, 0, 0, 0);
 
@@ -77,7 +92,8 @@ export class UsersService {
     return createdCouple;
   }
 
-  async validateUser(loginUserDto: LoginUserDto): Promise<User> {
+  //로그인시 비밀번호 비교
+  async validateUser(loginUserDto: LoginUserDto): Promise<UserDocument> {
     const { username, password } = loginUserDto;
     const user = await this.userModel.findOne({ username }).exec();
 
