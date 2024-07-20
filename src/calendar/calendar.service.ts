@@ -5,6 +5,7 @@ import { Couple } from '../users/schemas/couple.schema';
 import { Calendar } from './schema/calendar.schema';
 import { User } from '../users/schemas/user.schema';
 import { Schedule } from './schema/schedule.schema';
+import { Letter } from '../letters/schema/letter.schema';
 
 @Injectable()
 export class CalendarService {
@@ -13,6 +14,7 @@ export class CalendarService {
     @InjectModel(Calendar.name) private calendarModel: Model<Calendar>,
     @InjectModel(User.name) private userModel: Model<User>,
     @InjectModel(Schedule.name) private scheduleModel: Model<Schedule>,
+    @InjectModel(Letter.name) private letterModel: Model<Letter>,
   ) {}
 
   async getCoupleAnniversaries(coupleId: string) {
@@ -64,7 +66,7 @@ export class CalendarService {
     };
   }
 
-  //아래는 스케줄 관련 4개 로직(CRUD)
+  //아래는 스케줄 관련 4개(CRUD)
   async createSchedule(coupleId: string, date: Date, description: string) {
     const newSchedule = new this.scheduleModel({ coupleId, date, description });
     return await newSchedule.save();
@@ -84,6 +86,33 @@ export class CalendarService {
 
   async getSchedules(coupleId: string, date: Date) {
     return await this.scheduleModel.find({ coupleId, date });
+  }
+
+  //얘는 편지탭에서 쓰임
+  async getProgressInfo(coupleId: string) {
+    const couple = await this.coupleModel.findById(coupleId).exec();
+    if (!couple) {
+      throw new Error('Couple not found');
+    }
+
+    const currentDate = new Date();
+    const startDate = new Date(couple.startDate);
+    const anniversaries = this.calculateAnniversaries(startDate);
+    const closestAnniversary = anniversaries.find(
+      (anniversary) => anniversary.date > currentDate,
+    );
+
+    const lettersCount = await this.letterModel.countDocuments({
+      coupleId: coupleId,
+      date: { $gte: startDate, $lte: closestAnniversary.date },
+    });
+
+    return {
+      currentDate,
+      startDate,
+      closestAnniversary: closestAnniversary.date,
+      lettersCount,
+    };
   }
 
   //기념일, 만난날 계산에 쓰이는 함수들

@@ -6,6 +6,7 @@ import { CalendarService } from './calendar.service';
 import { Calendar, CalendarSchema } from './schema/calendar.schema';
 import { User, UserSchema } from '../users/schemas/user.schema';
 import { Schedule, ScheduleSchema } from './schema/schedule.schema';
+import { LetterModule } from '../letters/letter.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Couple.name, schema: CoupleSchema }]),
@@ -16,6 +17,7 @@ import { Schedule, ScheduleSchema } from './schema/schedule.schema';
     MongooseModule.forFeature([
       { name: Schedule.name, schema: ScheduleSchema },
     ]),
+    LetterModule,
   ],
   providers: [CalendarService],
   controllers: [CalendarController],

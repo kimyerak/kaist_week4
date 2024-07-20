@@ -10,5 +10,6 @@ import { LetterController } from './letter.controller';
   ],
   providers: [LetterService],
   controllers: [LetterController],
+  exports: [MongooseModule],
 })
 export class LetterModule {}

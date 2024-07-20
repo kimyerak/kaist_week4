@@ -15,7 +15,7 @@ export class CalendarController {
   constructor(private readonly calendarService: CalendarService) {}
 
   @ApiOperation({ summary: 'Get couple anniversaries' })
-  @ApiParam({ name: 'coupleid', description: 'Couple ID' })
+  @ApiParam({ name: 'coupleId', description: 'Couple ID' })
   @Get('couples/:coupleId/anniversaries')
   async getCoupleAnniversaries(@Param('coupleId') coupleId: string) {
     return this.calendarService.getCoupleAnniversaries(coupleId);
@@ -82,5 +82,12 @@ export class CalendarController {
     @Param('date') date: Date,
   ) {
     return this.calendarService.getSchedules(coupleId, date);
+  }
+
+  @ApiOperation({ summary: '이건 편지탭에서 쓰임. 편지개수와 기념일반환' })
+  @ApiParam({ name: 'coupleId', description: 'Couple ID' })
+  @Get('couples/:coupleId/progress')
+  async getProgressInfo(@Param('coupleId') coupleId: string) {
+    return this.calendarService.getProgressInfo(coupleId);
   }
 }
