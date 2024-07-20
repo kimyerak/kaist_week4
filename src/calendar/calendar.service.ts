@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Couple } from '../users/schemas/couple.schema';
-import { Calendar } from './calendar.schema';
+import { Calendar } from './schema/calendar.schema';
 import { User } from '../users/schemas/user.schema';
+import { Schedule } from './schema/schedule.schema';
 
 @Injectable()
 export class CalendarService {
@@ -11,6 +12,7 @@ export class CalendarService {
     @InjectModel(Couple.name) private coupleModel: Model<Couple>,
     @InjectModel(Calendar.name) private calendarModel: Model<Calendar>,
     @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Schedule.name) private scheduleModel: Model<Schedule>,
   ) {}
 
   async getCoupleAnniversaries(coupleId: string) {
@@ -62,6 +64,29 @@ export class CalendarService {
     };
   }
 
+  //아래는 스케줄 관련 4개 로직(CRUD)
+  async createSchedule(coupleId: string, date: Date, description: string) {
+    const newSchedule = new this.scheduleModel({ coupleId, date, description });
+    return await newSchedule.save();
+  }
+
+  async updateSchedule(scheduleId: string, date: Date, description: string) {
+    return await this.scheduleModel.findByIdAndUpdate(
+      scheduleId,
+      { date, description },
+      { new: true },
+    );
+  }
+
+  async deleteSchedule(scheduleId: string) {
+    return await this.scheduleModel.findByIdAndDelete(scheduleId);
+  }
+
+  async getSchedules(coupleId: string, date: Date) {
+    return await this.scheduleModel.find({ coupleId, date });
+  }
+
+  //기념일, 만난날 계산에 쓰이는 함수들
   private calculateAnniversaries(startDate: Date) {
     const anniversaries = [];
     const dayIntervals = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
