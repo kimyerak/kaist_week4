@@ -26,7 +26,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  @ApiOperation({ summary: 'Register a new user' })
+  @ApiOperation({ summary: '사용순위1 - 회원가입' })
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully registered.',
@@ -38,7 +38,7 @@ export class UsersController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'username, password전달시, 사용자 정보 반환' })
+  @ApiOperation({ summary: '사용순위2 - username, password로 로그인' })
   @ApiResponse({
     status: 200,
     description: 'The user has been successfully logged in.',
@@ -98,7 +98,7 @@ export class UsersController {
   }
 
   @Put('couple/:id') // 커플 정보를 업데이트하는 새로운 엔드포인트 추가
-  @ApiOperation({ summary: 'Update couple information' })
+  @ApiOperation({ summary: '사용순위3 - 커플등록' })
   @ApiResponse({
     status: 200,
     description: 'The couple information has been successfully updated.',
