@@ -15,24 +15,17 @@ export class OpenAiService {
     this.apiKey = this.configService.get<string>('OPENAI_API_KEY');
   }
 
-  async delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   async sendMessage(userMessage: string): Promise<string> {
     const prompt = PROMPT_TEMPLATE.replace('{{message}}', userMessage);
 
     try {
-      // 지연 시간 추가
-      await this.delay(1000);
-
       const response = await firstValueFrom(
         this.httpService.post(
           'https://api.openai.com/v1/chat/completions', // 올바른 엔드포인트
           {
             model: 'gpt-3.5-turbo',
             messages: [{ role: 'user', content: prompt }],
-            max_tokens: 100,
+            max_tokens: 500,
           },
           {
             headers: {

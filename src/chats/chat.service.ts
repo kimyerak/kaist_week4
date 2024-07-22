@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model, Types, isValidObjectId } from 'mongoose';
 import { Chat, ChatDocument, Message } from './schemas/chat.schema';
 import { OpenAiService } from './openai.service';
 
@@ -17,6 +17,10 @@ export class ChatService {
     message: string,
     senderType: string,
   ) {
+    if (!isValidObjectId(coupleId)) {
+      throw new Error('Invalid coupleId');
+    }
+
     const timestamp = new Date();
     const newMessage: Message = {
       senderId: senderType === 'ai' ? null : new Types.ObjectId(senderId),
@@ -61,6 +65,9 @@ export class ChatService {
   }
 
   async getChat(coupleId: string) {
+    if (!isValidObjectId(coupleId)) {
+      throw new Error('Invalid coupleId');
+    }
     return this.chatModel
       .findOne({ coupleId: new Types.ObjectId(coupleId) })
       .exec();
