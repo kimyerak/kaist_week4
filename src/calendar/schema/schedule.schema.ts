@@ -10,7 +10,7 @@ export class Schedule extends Document {
   date: Date;
 
   @Prop({ required: true })
-  description: string;
+  title: string;
 }
 
 export const ScheduleSchema = SchemaFactory.createForClass(Schedule);

@@ -7,8 +7,8 @@ export class CoupleAnniversariesDto {
   @ApiProperty({ description: 'The date of the anniversary' })
   date: Date;
 
-  @ApiProperty({ description: 'The description of the anniversary' })
-  description: string;
+  @ApiProperty({ description: 'The title of the anniversary' })
+  title: string;
 }
 
 export class CoupleInfoDto {
@@ -32,8 +32,8 @@ export class ScheduleDto {
   @ApiProperty({ description: 'The date of the schedule' })
   date: Date;
 
-  @ApiProperty({ description: 'The description of the schedule' })
-  description: string;
+  @ApiProperty({ description: 'The title of the schedule' })
+  title: string;
 }
 
 export class ProgressInfoDto {

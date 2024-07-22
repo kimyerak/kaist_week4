@@ -8,6 +8,7 @@ import { LetterModule } from './letters/letter.module';
 import { AwsModule } from './letters/aws.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
+import { ChatModule } from './chats/chat.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     CalendarModule,
     LetterModule,
     AwsModule,
+    ChatModule,
     MongooseModule.forFeature([
       { name: Calendar.name, schema: CalendarSchema },
     ]),

@@ -56,7 +56,7 @@ export class CalendarController {
       properties: {
         coupleId: { type: 'string' },
         date: { type: 'string', format: 'date-time' },
-        description: { type: 'string' },
+        title: { type: 'string' },
       },
     },
   })
@@ -69,9 +69,9 @@ export class CalendarController {
   async createSchedule(
     @Body('coupleId') coupleId: string,
     @Body('date') date: Date,
-    @Body('description') description: string,
+    @Body('title') title: string,
   ) {
-    return this.calendarService.createSchedule(coupleId, date, description);
+    return this.calendarService.createSchedule(coupleId, date, title);
   }
 
   @ApiOperation({ summary: 'Update schedule' })
@@ -80,7 +80,7 @@ export class CalendarController {
     schema: {
       properties: {
         date: { type: 'string', format: 'date-time' },
-        description: { type: 'string' },
+        title: { type: 'string' },
       },
     },
   })
@@ -93,9 +93,9 @@ export class CalendarController {
   async updateSchedule(
     @Param('id') scheduleId: string,
     @Body('date') date: Date,
-    @Body('description') description: string,
+    @Body('title') title: string,
   ) {
-    return this.calendarService.updateSchedule(scheduleId, date, description);
+    return this.calendarService.updateSchedule(scheduleId, date, title);
   }
 
   @ApiOperation({ summary: 'Delete schedule' })
