@@ -41,16 +41,20 @@ export class ChatService {
     await chat.save();
 
     if (senderType === 'user') {
-      const aiResponse = await this.openAiService.sendMessage(message);
-      const aiMessage: Message = {
-        senderId: null,
-        senderType: 'ai',
-        message: aiResponse,
-        timestamp: new Date(),
-        readBy: [],
-      };
-      chat.messages.push(aiMessage);
-      await chat.save();
+      try {
+        const aiResponse = await this.openAiService.sendMessage(message);
+        const aiMessage: Message = {
+          senderId: null,
+          senderType: 'ai',
+          message: aiResponse,
+          timestamp: new Date(),
+          readBy: [],
+        };
+        chat.messages.push(aiMessage);
+        await chat.save();
+      } catch (error) {
+        console.error('Failed to get response from OpenAI API:', error);
+      }
     }
 
     return chat;
