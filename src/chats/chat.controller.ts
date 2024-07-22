@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ChatService } from './chat.service';
 import {
   ApiTags,
@@ -23,6 +31,7 @@ export class ChatController {
     description: 'The message has been sent.',
     type: ChatDto,
   })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async sendMessage(@Body() createChatDto: CreateChatDto) {
     const { coupleId, senderId, message, senderType } = createChatDto;
     return this.chatService.sendMessage(
