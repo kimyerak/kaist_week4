@@ -17,7 +17,9 @@ import {
   ApiParam,
   ApiBody,
   ApiConsumes,
+  ApiResponse,
 } from '@nestjs/swagger';
+import { LetterDto } from './letter.dto';
 
 @ApiTags('letters')
 @Controller('letters')
@@ -39,6 +41,11 @@ export class LetterController {
     },
   })
   @ApiConsumes('multipart/form-data')
+  @ApiResponse({
+    status: 201,
+    description: 'The letter has been successfully created.',
+    type: LetterDto,
+  })
   @Post()
   @UseInterceptors(FilesInterceptor('photos'))
   async createLetter(
@@ -74,6 +81,11 @@ export class LetterController {
     },
   })
   @ApiConsumes('multipart/form-data')
+  @ApiResponse({
+    status: 200,
+    description: 'The letter has been successfully updated.',
+    type: LetterDto,
+  })
   @Put(':id')
   async updateLetter(
     @Param('id') letterId: string,
@@ -93,6 +105,10 @@ export class LetterController {
 
   @ApiOperation({ summary: 'Delete letter' })
   @ApiParam({ name: 'id', description: 'Letter ID' })
+  @ApiResponse({
+    status: 204,
+    description: 'The letter has been successfully deleted.',
+  })
   @Delete(':id')
   async deleteLetter(@Param('id') letterId: string) {
     return this.letterService.deleteLetter(letterId);
@@ -100,6 +116,11 @@ export class LetterController {
 
   @ApiOperation({ summary: 'whole letter history' })
   @ApiParam({ name: 'coupleId', description: 'Couple ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The letters have been successfully retrieved.',
+    type: [LetterDto],
+  })
   @Get('couple/:coupleId')
   async getLetters(@Param('coupleId') coupleId: string) {
     return this.letterService.getLetters(coupleId);
@@ -107,6 +128,11 @@ export class LetterController {
 
   @ApiOperation({ summary: 'Get specific letter' })
   @ApiParam({ name: 'id', description: 'Letter ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The letter has been successfully retrieved.',
+    type: LetterDto,
+  })
   @Get(':id')
   async getLetter(@Param('id') letterId: string) {
     return this.letterService.getLetter(letterId);

@@ -30,6 +30,7 @@ export class UsersController {
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully registered.',
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 409, description: 'Username already exists.' })
   async register(@Body() createUserDto: CreateUserDto) {
@@ -69,6 +70,7 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'The user has been successfully updated.',
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 404, description: 'User not found.' })
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -91,6 +93,7 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'The user has been successfully retrieved.',
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 404, description: 'User not found.' })
   async getById(@Param('id') id: string) {
