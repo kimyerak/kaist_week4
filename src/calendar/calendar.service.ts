@@ -68,14 +68,22 @@ export class CalendarService {
 
   //아래는 스케줄 관련 4개(CRUD)
   async createSchedule(coupleId: string, date: Date, title: string) {
-    const newSchedule = new this.scheduleModel({ coupleId, date, title });
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0); // 시간 부분을 0으로 설정
+    const newSchedule = new this.scheduleModel({
+      coupleId,
+      date: newDate,
+      title,
+    });
     return await newSchedule.save();
   }
 
   async updateSchedule(scheduleId: string, date: Date, title: string) {
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0); // 시간 부분을 0으로 설정
     return await this.scheduleModel.findByIdAndUpdate(
       scheduleId,
-      { date, title },
+      { date: newDate, title },
       { new: true },
     );
   }
