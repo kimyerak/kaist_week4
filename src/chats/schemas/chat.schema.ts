@@ -6,7 +6,7 @@ export class Message {
   @Prop({ type: Types.ObjectId, ref: 'User', default: null })
   senderId: Types.ObjectId;
 
-  @Prop({ required: true, enum: ['user', 'ai'] })
+  @Prop({ required: true, enum: ['me', 'partner', 'ai'] })
   senderType: string;
 
   @Prop({ required: true })

@@ -28,7 +28,6 @@ export class ChatDto {
   })
   messages: {
     senderId: Types.ObjectId | null;
-    senderType: string;
     message: string;
     timestamp: Date;
     readBy: Types.ObjectId[];
