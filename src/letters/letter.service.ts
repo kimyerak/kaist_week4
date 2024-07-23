@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Letter } from './schema/letter.schema';
-import { S3Service } from './s3.service';
+import { S3Service } from '../S3.service';
 
 @Injectable()
 export class LetterService {
@@ -23,7 +23,7 @@ export class LetterService {
     // photos가 undefined일 때 빈 배열로 초기화
     const photoUrls = photos
       ? await Promise.all(
-          photos.map((photo) => this.s3Service.uploadFile(photo)),
+          photos.map((photo) => this.s3Service.uploadFile('letter', photo)),
         )
       : [];
 
@@ -52,7 +52,7 @@ export class LetterService {
     if (date !== undefined) updateFields.date = date;
     if (photos !== undefined) {
       const photoUrls = await Promise.all(
-        photos.map((photo) => this.s3Service.uploadFile(photo)),
+        photos.map((photo) => this.s3Service.uploadFile('letter', photo)),
       );
       updateFields.photos = photoUrls;
     }
