@@ -94,7 +94,7 @@ export class ChatService {
     const timestamp = new Date();
     const newMessage: Message = {
       senderId: new Types.ObjectId(senderId),
-      senderType: 'user', // senderType은 더 이상 필요하지 않습니다.
+      // senderType: 'user', // senderType은 더 이상 필요하지 않습니다.
       message,
       timestamp,
       readBy: [],
@@ -118,7 +118,7 @@ export class ChatService {
       const aiResponse = await this.openAiService.sendMessage(message);
       const aiMessage: Message = {
         senderId: null,
-        senderType: 'ai',
+        // senderType: 'ai',
         message: aiResponse,
         timestamp: new Date(),
         readBy: [],

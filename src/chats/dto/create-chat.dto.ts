@@ -18,10 +18,10 @@ export class CreateChatDto {
   @IsNotEmpty()
   senderId: string;
 
-  @ApiProperty({ description: 'The type of the sender', example: 'user' })
-  @IsString()
-  @IsNotEmpty()
-  senderType: string;
+  // @ApiProperty({ description: 'The type of the sender', example: 'user' })
+  // @IsString()
+  // @IsNotEmpty()
+  // senderType: string;
 
   @ApiProperty({ description: 'The message content', example: 'Hello!' })
   @IsString()

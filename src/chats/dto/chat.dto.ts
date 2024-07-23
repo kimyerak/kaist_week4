@@ -19,7 +19,7 @@ export class ChatDto {
     example: [
       {
         senderId: '60d21b4667d0d8992e610c86',
-        senderType: 'user',
+        // senderType: 'user',
         message: 'Hello!',
         timestamp: '2024-07-22T10:46:21.048Z',
         readBy: [],
