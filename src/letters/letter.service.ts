@@ -14,7 +14,7 @@ export class LetterService {
   async createLetter(
     coupleId: string,
     senderId: string,
-    receiverId: string,
+    // receiverId: string,
     title: string,
     content: string,
     photos: Express.Multer.File[],
@@ -30,7 +30,7 @@ export class LetterService {
     const newLetter = new this.letterModel({
       coupleId,
       senderId,
-      receiverId,
+      // receiverId,
       title,
       content,
       photos: photoUrls,

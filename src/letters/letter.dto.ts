@@ -10,8 +10,8 @@ export class LetterDto {
   @ApiProperty({ description: 'The ID of the sender' })
   senderId: string;
 
-  @ApiProperty({ description: 'The ID of the receiver' })
-  receiverId: string;
+  // @ApiProperty({ description: 'The ID of the receiver' })
+  // receiverId: string;
 
   @ApiProperty({ description: 'The title of the letter' })
   title: string;

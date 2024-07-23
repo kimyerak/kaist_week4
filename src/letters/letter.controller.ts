@@ -32,7 +32,7 @@ export class LetterController {
       properties: {
         coupleId: { type: 'string' },
         senderId: { type: 'string' },
-        receiverId: { type: 'string' },
+        // receiverId: { type: 'string' },
         title: { type: 'string' },
         content: { type: 'string' },
         photos: { type: 'array', items: { type: 'string', format: 'binary' } },
@@ -51,7 +51,7 @@ export class LetterController {
   async createLetter(
     @Body('coupleId') coupleId: string,
     @Body('senderId') senderId: string,
-    @Body('receiverId') receiverId: string,
+    // @Body('receiverId') receiverId: string,
     @Body('title') title: string,
     @Body('content') content: string,
     @UploadedFiles() photos: Express.Multer.File[],
@@ -60,7 +60,7 @@ export class LetterController {
     return this.letterService.createLetter(
       coupleId,
       senderId,
-      receiverId,
+      // receiverId,
       title,
       content,
       photos,

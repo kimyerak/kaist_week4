@@ -9,8 +9,8 @@ export class Letter extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   senderId: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  receiverId: Types.ObjectId;
+  // @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  // receiverId: Types.ObjectId;
 
   @Prop({ required: true })
   title: string;
