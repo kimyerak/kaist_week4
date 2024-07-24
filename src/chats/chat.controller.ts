@@ -33,8 +33,8 @@ export class ChatController {
   })
   @UsePipes(new ValidationPipe({ transform: true }))
   async sendMessage(@Body() createChatDto: CreateChatDto) {
-    const { coupleId, senderId, message } = createChatDto;
-    return this.chatService.sendMessage(coupleId, senderId, message);
+    const { coupleId, senderId, message, topic } = createChatDto;
+    return this.chatService.sendMessage(coupleId, senderId, message, topic);
   }
 
   @Get(':coupleId')

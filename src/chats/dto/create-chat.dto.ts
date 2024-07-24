@@ -27,4 +27,9 @@ export class CreateChatDto {
   @IsString()
   @IsNotEmpty()
   message: string;
+
+  @ApiProperty({ description: 'The message topic', example: '대화주제 추천' })
+  @IsString()
+  @IsNotEmpty()
+  topic: string;
 }
