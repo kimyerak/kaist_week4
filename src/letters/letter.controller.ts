@@ -87,6 +87,7 @@ export class LetterController {
     type: LetterDto,
   })
   @Put(':id')
+  @UseInterceptors(FilesInterceptor('photos'))
   async updateLetter(
     @Param('id') letterId: string,
     @Body('title') title: string,
