@@ -146,6 +146,7 @@ export class CalendarService {
       anniversaries.push({ title: `${years} year`, date });
     });
 
+    anniversaries.push({ title: `시작일`, startDate });
     return anniversaries;
   }
 
