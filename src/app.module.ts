@@ -13,7 +13,9 @@ import { MissionsModule } from './missions/mission.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/couple'), // MongoDB 연결 설정
+    MongooseModule.forRoot(
+      'mongodb://yerak213:yerak0213@localhost:27017/couple',
+    ),
     MongooseModule.forFeature([{ name: Couple.name, schema: CoupleSchema }]),
     UsersModule,
     CalendarModule,
