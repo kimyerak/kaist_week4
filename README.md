@@ -79,13 +79,11 @@
 
 http://54.180.126.72:3000/api
 
-### 2. S3 에 사진 올라가게 함 (링크 클릭하면 사진 나와요~!!)
+### 2. S3 에 사진 올라가게 함
 
 [couple-letter.s3.ap-northeast-2.amazonaws.com](https://couple-letter.s3.ap-northeast-2.amazonaws.com/ba38ee06-5c4a-4d62-8d9a-ba83ff958373.JPG)
 
 ### 3. EC2 배포~!!@@@@!!!!!!!
-
-**thanks to 상우, 지훈 ㅎㅁㅎ 첫 배포…ㅋ**
 
 ### 4. open ai의 key를 받아 4개의 prompt로 챗봇 컨셉 구현
 
